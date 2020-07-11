@@ -1,0 +1,102 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Test
+
+Parameters:
+  UUID:
+    Type: String
+  StackName:
+    Type: String
+  Project:
+    Type: String
+    Description: Test
+    MinLength: '1'
+    MaxLength: '41'
+    ConstraintDescription: must contain only alphanumeric characters and _.
+  DeployBucket:
+    Type: String
+    Description: Deploy Bucket
+    MinLength: '1'
+    MaxLength: '41'
+    ConstraintDescription: must contain only alphanumeric characters and _.
+  Environment:
+    Type: String
+    Description: Environment
+    MinLength: '1'
+    MaxLength: '41'
+    ConstraintDescription: must contain only alphanumeric characters and _.
+  LogLevel:
+    Type: String
+    Description: log level for the debugging of the lambdas
+    MinLength: '1'
+    MaxLength: '41'
+    AllowedValues:
+      - error
+      - warn
+      - info
+      - debug
+    ConstraintDescription: 'only allowed values: error, warn, info, debug.'
+  RetentionInDays:
+    Type: Number
+    Description: Retention in days cloudwatch logs
+    Default: 30
+
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    AutoPublishAlias: !Ref Environment
+    Timeout: 30
+    Handler: app.handler
+    Environment:
+      Variables:
+        ENV: !Ref Environment
+        LOG_LEVEL: !Ref LogLevel
+
+Resources:
+  #################################################
+  #            Layers Resources example           #
+  #################################################
+
+  # Esta layer contiene las librerias de npm que se quieren compartir cros lambdas en el proyecto
+  NodePackageManagerLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName:
+        !Join [
+          '-',
+          [!Ref Environment, !Ref Project, 'NodePackageManagerLayer'],
+        ]
+      ContentUri: ../layers/node/npm
+      Description: 'layer containing npm libraries: '
+      CompatibleRuntimes:
+        - nodejs10.x
+        - nodejs12.x
+      RetentionPolicy: Retain
+
+  #################################################
+  #          Function Resources example           #
+  #################################################
+
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        !Join ['-', [!Ref Environment, !Ref Project, 'HelloWorld']]
+      CodeUri: ../functions/lambda
+      Layers:
+        - !Ref NodePackageManagerLayer
+      AutoPublishAlias: ActiveVersion
+
+  #################################################
+  #             Cloudwatch Resources              #
+  #################################################
+  HelloWorldLogGroup: # sync new
+    Type: AWS::Logs::LogGroup
+    DependsOn:
+      - HelloWorldFunction
+    Properties:
+      LogGroupName:
+        !Join ['/', ['/aws/lambda', !Ref HelloWorldFunction]]
+      RetentionInDays: !Ref RetentionInDays
+#Outputs:

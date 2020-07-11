@@ -1,0 +1,8 @@
+/node_modules
+node_modules
+/.idea
+yarn.lock
+.nyc_output
+coverage
+.DS_Store
+.env

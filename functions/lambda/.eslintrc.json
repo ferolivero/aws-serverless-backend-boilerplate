@@ -1,0 +1,59 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true,
+        "es6": true
+    },
+
+    // añade "prettier" (y si quieres "prettier/react") a las opciones de "extends"
+    "extends": ["eslint:recommended"],
+
+    // y por ultimo, en la llave de "plugins" añade el plugin de eslint para prettier
+    "plugins": ["prettier"],
+
+    "globals": {
+        "Buffer": true,
+        "escape": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "rules": {
+        "no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "args": "after-used",
+                "ignoreRestSiblings": false
+            }
+        ],
+        "quotes": [2, "single"],
+        "semi": [2, "always"],
+        "strict": 0,
+        "curly": 0,
+        "no-empty": 0,
+        "no-multi-spaces": 2,
+        "no-underscore-dangle": 0,
+        "new-cap": 0,
+        "dot-notation": 0,
+        "no-use-before-define": 0,
+        "keyword-spacing": [
+            2,
+            {
+                "after": true,
+                "before": true
+            }
+        ],
+        "no-trailing-spaces": 2,
+        "space-unary-ops": [
+            1,
+            {
+                "words": true,
+                "nonwords": false
+            }
+        ],
+        "no-console": "off",
+        "prettier/prettier": ["error"]
+    }
+}

@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Xxxxxxxxxxxxxxxx
+
+Parameters:
+  Environment:
+    Type: String
+
+Resources:
+  AuthConfigTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: 'Id'
+          AttributeType: 'S'
+        - AttributeName: 'example'
+          AttributeType: 'S'
+
+      LocalSecondaryIndexes:
+        - IndexName: 'example-exampleId'
+          KeySchema:
+            - AttributeName: 'exampleId'
+              KeyType: 'HASH'
+            - AttributeName: 'exampleId2'
+              KeyType: 'RANGE'
+          Projection:
+            ProjectionType: 'ALL'
+      ProvisionedThroughput:
+        ReadCapacityUnits: '2'
+        WriteCapacityUnits: '2'
+      TableName: !Join ['', [!Ref Environment, 'TableName']]

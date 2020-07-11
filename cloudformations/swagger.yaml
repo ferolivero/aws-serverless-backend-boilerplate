@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: XXXXX(NOMBRE-API)XXXXXX
+  description: xxxxxxxxxxxxxxx
+tags:
+  - name: xxxxxxxxxx
+x-amazon-apigateway-documentation:
+  version: 0.1
+  documentationParts:
+    - location:
+        type: API
+      properties:
+        description: Xxxxxxxxxxxxxxxxxxx
+        info:
+          description: Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          version: 0.1
+paths:
+  '/users/{userId}':
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in Markdown.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type: string
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    post:
+      summary: Creates a new user.
+      requestBody:
+        required: true
+        schema:
+          $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+x-amazon-apigateway-request-validators:
+  Validate-Body:
+    validateRequestParameters: false
+    validateRequestBody: true
+  Validate-Params:
+    validateRequestParameters: true
+    validateRequestBody: false
+components:
+  schemas:
+    User:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
