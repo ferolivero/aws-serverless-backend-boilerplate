@@ -16,8 +16,6 @@ x-amazon-apigateway-documentation:
         info:
           description: Servicios disponibles para TEST API
           version: 0.1
-schemes:
-  - 'https'
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
@@ -1159,9 +1157,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Order'
         '400':
           description: Invalid Order
       requestBody:
@@ -1344,9 +1339,6 @@ paths:
             application/json:
               schema:
                 type: string
-            application/xml:
-              schema:
-                type: string
         '400':
           description: Invalid username/password supplied
   /user/logout:
@@ -1390,9 +1382,6 @@ paths:
           description: successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
@@ -1635,16 +1624,10 @@ components:
           example: doggie
         photoUrls:
           type: array
-          xml:
-            name: photoUrl
-            wrapped: true
           items:
             type: string
         tags:
           type: array
-          xml:
-            name: tag
-            wrapped: true
           items:
             $ref: '#/components/schemas/Tag'
         status:
@@ -1654,8 +1637,6 @@ components:
             - available
             - pending
             - sold
-      xml:
-        name: Pet
     ApiResponse:
       type: object
       properties:
@@ -1726,9 +1707,6 @@ components:
     Pet:
       content:
         application/json:
-          schema:
-            $ref: '#/components/schemas/Pet'
-        application/xml:
           schema:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
