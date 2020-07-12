@@ -55,6 +55,22 @@ Globals:
 
 Resources:
   #################################################
+  #             Api Gateway Resources             #
+  #################################################
+  ServerlessRestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub ${Environment}-Test
+      StageName: !Ref Environment
+      Variables:
+        Environment: !Ref Environment
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: ./swagger.yaml
+
+  #################################################
   #            Layers Resources example           #
   #################################################
 
